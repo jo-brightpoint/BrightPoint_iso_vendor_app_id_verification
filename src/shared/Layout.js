@@ -3,7 +3,7 @@ import React from "react";
 
 const Layout = ({ children }) => {
   return (
-    <div className="bg-gray-200">
+    <div className="bg-white font-sans pb-20">
       {/* <Helmet>
         <html lang="en" />
         <title>BrightPoint Capital | Application</title>

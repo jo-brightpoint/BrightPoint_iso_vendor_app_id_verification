@@ -1,85 +1,82 @@
 import React from "react";
 import Dropzone from "react-dropzone";
-import { FormControlLabel, Checkbox } from "@material-ui/core";
 
 const UploadDocument = ({ files, onDrop, removeFile }) => {
-  const [isChecked, setIsChecked] = React.useState(false);
-
   return (
-    <div className="upload-container">
-      <h2 className="text-center text-2xl pb-5">Upload your documents</h2>
+    <div className="container px-4 mx-auto">
+      <h2 className="text-center text-xl py-8 text-center uppercase">Upload your documents</h2>
 
-      <div className="row">
-        <div className="col-md-12">
-          <Dropzone onDrop={onDrop} multiple={true} maxSize={26214400}>
-            {({ getRootProps, getInputProps, isDragActive }) => {
+      <div className="flex">
+        <div className="w-1/3">
+          <p className="text-lg pb-2">Required Documents</p>
+          <div className="px-4 pb-2">
+            <ul className="list-disc">
+              <li>
+                <div className="flex flex-start">
+                  <h5 className="hours m-0">Driver's license(s) of all owners</h5>
+                </div>
+              </li>
+              <li>
+                <div className="flex flex-start">
+                  <h5 className="hours m-0">Bank statements for past 3 months</h5>
+                </div>
+              </li>
+              <li>
+                <div className="flex flex-start">
+                  <h5 className="hours m-0">Void check of business account</h5>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <p>Allowed file formats:</p>
+          <div>
+            <span className="p-1 text-xs mr-1 rounded text-white bg-bpc-blue">PDF</span>
+            <span className="p-1 text-xs mr-1 rounded text-white bg-bpc-blue">JPG</span>
+            <span className="p-1 text-xs mr-1 rounded text-white bg-bpc-blue">GIF</span>
+            <span className="p-1 text-xs mr-1 rounded text-white bg-bpc-blue">PNG</span>
+          </div>
+        </div>
+        <div className="w-2/3">
+          <Dropzone onDrop={onDrop} multiple={true} maxSize={26214400} accept="image/png, image/gif,image/pdf">
+            {({ getRootProps, getInputProps, isDragActive, isDragReject }) => {
               return (
                 <div
                   {...getRootProps()}
-                  className="relative bg-gray-100 flex justify-center items-center flex-col mx-10 mb-10"
-                  style={{ height: "300px" }}
+                  className={`relative flex justify-center items-center flex-col mb-10 bg-white border-2 ${isDragReject ? 'border-red-500' : 'border-gray-500'} border-dashed`}
+                  style={{ height: "170px" }}
                 >
-                  <i className="fal fa-cloud-upload fa-2x" />
+                  <img className="w-24 h-24" src={require("../images/green-upload-symbol.svg")} alt="Upload Button"/>
                   <input {...getInputProps()} />
-                  {isDragActive ? (
+                  {isDragActive && !isDragReject ? (
                     <div className="dragActive">
-                      <i className="fal fa-sync fa-3x fa-spin" />
+                      <i className="fal fa-sync fa-lg fa-spin" />
+                    </div>
+                  ) : isDragReject ? (
+                    <div className="flex flex-col justify-center text-center">
+                      <p className="text-lg text-red-500">File type not accepted</p>
                     </div>
                   ) : (
-                    <p>Drag &amp; Drop File here</p>
+                    <p className="text-lg">Drag &amp; Drop File here</p>
                   )}
                 </div>
               );
             }}
           </Dropzone>
-        </div>
-        <div className="flex px-">
-          <ul className="">
-            <li className="mb-3">
-              <div className="flex flex-start">
-                <i className="fas fa-check text-blue-700" />
-                <h5 className="pl-2 hours m-0">Driver's license(s) of all owners</h5>
-              </div>
-            </li>
-            <li className="mb-3">
-              <div className="flex flex-start">
-                <i className="fas fa-check text-blue-700" />
-                <h5 className="pl-2 hours m-0">Bank statements for past 3 months</h5>
-              </div>
-            </li>
-            <li className="mb-3">
-              <div className="flex flex-start">
-                <i className="fas fa-check text-blue-700" />
-                <h5 className="pl-2 hours m-0">Void check of business account</h5>
-              </div>
-            </li>
-            <li className="mb-3 d-flex">
-              <FormControlLabel
-                control={
-                  <Checkbox name="provide_later_documents" checked={isChecked} onChange={() => setIsChecked(!isChecked)} color="primary" />
-                }
-                label="I will provide later by email"
-              />
-            </li>
-          </ul>
-        </div>
-      </div>
-      {files && files.length > 0 && <hr />}
-      <div className="row">
-        {files && files.length > 0 && (
-          <div className="col-12 py-sm">
-            <h4>My uploaded documents</h4>
+          <div className="flex flex-col">
+            {files &&
+              files.map((file, index) => (
+                <div className="flex items-center" key={index}>
+                  <span className="pr-4">
+                    <img src={require('../images/green-check.svg')} alt="Check Icon" />
+                  </span>
+                  <p>{file.filename}</p>
+                  <span className="pl-4" onClick={() => removeFile(file.filename)}>
+                    <img src={require('../images/grey-remove.svg')} alt="Remove Icon" />  
+                  </span>
+                </div>
+              ))}
           </div>
-        )}
-        {files &&
-          files.map((file, index) => (
-            <div className="col-md-12 file--container py-sm px-3" key={index}>
-              <p>{file.filename}</p>
-              <span className="ml-md p-sm" onClick={() => removeFile(file.filename)}>
-                <i className="fal fa-trash-alt fa-lg" />
-              </span>
-            </div>
-          ))}
+        </div>
       </div>
     </div>
   );

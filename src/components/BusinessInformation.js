@@ -1,433 +1,417 @@
 import React from "react";
-import { TextField } from "@material-ui/core";
+import { TextField, MenuItem } from "@material-ui/core";
 import NumberFormat from "react-number-format";
-import { useFormContext } from "react-hook-form";
-import { RHFInput } from "react-hook-form-input";
+import { FastField } from "formik";
 
-export default function BusinessInformation() {
-  const { register, errors, setValue } = useFormContext();
+import { formatTaxId } from "../utils";
+import { formatPhoneNumber } from "../utils";
+
+export default function BusinessInformation({ handleChange, handleBlur, values, errors, touched, onChange }) {
   return (
     <div>
-      <h2 className="text-3xl pl-1 pt-10">Business Information</h2>
+      <h2 className="text-xl pl-1 text-center py-4 uppercase">Business Information</h2>
       <div className="flex flex-wrap justify-around">
-        <div className="px-2 lg:w-1/2 w-full py-4">
-          <TextField
-            name="account.company"
-            error={!!errors["account.company"]}
-            label="Business Legal Name"
-            helperText={errors["account.company"] ? errors["account.company"].message : ""}
-            type="text"
-            inputRef={register({
-              required: "This field is required"
-            })}
-            fullWidth
-          />
-        </div>
-        <div className="px-2 lg:w-1/2 w-full py-4">
-          <TextField
-            name="account.dba"
-            label="Business DBA Name(optional)"
-            inputRef={register({
-              required: "This field is required"
-            })}
-            type="text"
-            fullWidth
-          />
-        </div>
-      </div>
-      <div className="flex flex-wrap justify-around">
-        <div className="px-2 lg:w-1/2 w-full py-4">
-          <TextField
-            name="account.legal_entity_type"
-            error={!!errors["account.legal_entity_type"]}
-            label="Business Entity Type"
-            helperText={errors["account.legal_entity_type"] ? errors["account.legal_entity_type"].message : ""}
-            type="text"
-            inputRef={register({
-              required: "This field is required"
-            })}
-            fullWidth
-            select
-            autoComplete="off"
-            margin="normal"
-            SelectProps={{
-              native: true
+        <div className="px-2 lg:w-1/3 w-full py-4">
+          <FastField name="account.company" type="text" label="Business Legal name">
+            {({ field, form: { touched, errors }, meta }) => {
+              return (
+                <TextField
+                  {...field}
+                  label="Business Legal name"
+                  type="text"
+                  variant="filled"
+                  fullWidth
+                  error={meta.touched && !meta.value}
+                  helperText={meta.touched && !meta.value ? "This field is required" : ""}
+                />
+              );
             }}
-          >
-            <option value="" />
-            <option value="Corporation">Corporation</option>
-            <option value="LLC">LLC</option>
-            <option value="Partnership">Partnership</option>
-            <option value="Sole Proprietorship">Sole Proprietorship</option>
-          </TextField>
+          </FastField>
         </div>
-        <div className="px-2 lg:w-1/2 w-full py-4">
-          <TextField
-            name="account.state_of_org"
-            error={!!errors["account.state_of_org"]}
-            label="State of Incorportation"
-            inputRef={register({
-              required: "This field is required"
-            })}
-            helperText={errors["account.state_of_org"] ? errors["account.state_of_org"].message : ""}
-            select
-            fullWidth
-            autoComplete="off"
-            margin="normal"
-            SelectProps={{
-              native: true
-            }}
-          >
-            <option value="" />
-            <option value="Alabama - AL">Alabama - AL</option>
-            <option value="Alaska - AK">Alaska - AK</option>
-            <option value="Arizona - AZ">Arizona - AZ</option>
-            <option value="Arkansas - AR">Arkansas - AR</option>
-            <option value="California - CA">California - CA</option>
-            <option value="Colorado - CO">Colorado - CO</option>
-            <option value="Connecticut - CT">Connecticut - CT</option>
-            <option value="Delaware - DE">Delaware - DE</option>
-            <option value="Florida - FL">Florida - FL</option>
-            <option value="Georgia - GA">Georgia - GA</option>
-            <option value="Hawaii - HI">Hawaii - HI</option>
-            <option value="Idaho - ID">Idaho - ID</option>
-            <option value="Illinois - IL">Illinois - IL</option>
-            <option value="Indiana - IN">Indiana - IN</option>
-            <option value="Iowa - IA">Iowa - IA</option>
-            <option value="Kansas - KS">Kansas - KS</option>
-            <option value="Kentucky - KY">Kentucky - KY</option>
-            <option value="Louisiana - LA">Louisiana - LA</option>
-            <option value="Maine - ME">Maine - ME</option>
-            <option value="Maryland - MD">Maryland - MD</option>
-            <option value="Massachusetts - MA">Massachusetts - MA</option>
-            <option value="Michigan - MI">Michigan - MI</option>
-            <option value="Minnesota - MN">Minnesota - MN</option>
-            <option value="Mississippi - MS">Mississippi - MS</option>
-            <option value="Missouri - MO">Missouri - MO</option>
-            <option value="Montana - MT">Montana - MT</option>
-            <option value="Nebraska - NE">Nebraska - NE</option>
-            <option value="Nevada - NV">Nevada - NV</option>
-            <option value="Hampshire - NH">Hampshire - NH</option>
-            <option value="New Jersey - NJ">New Jersey - NJ</option>
-            <option value="New Mexico - NM">New Mexico - NM</option>
-            <option value="New York - NY">New York - NY</option>
-            <option value="North Carolina - NC">North Carolina - NC</option>
-            <option value="North Dakota - ND">North Dakota - ND</option>
-            <option value="Ohio - OH">Ohio - OH</option>
-            <option value="Oklahoma - OK">Oklahoma - OK</option>
-            <option value="Oregon - OR">Oregon - OR</option>
-            <option value="Pennsylvania - PA">Pennsylvania - PA</option>
-            <option value="Rhode Island - RI">Rhode Island - RI</option>
-            <option value="South Carolina - SC">South Carolina - SC</option>
-            <option value="South Dakota - SD">South Dakota - SD</option>
-            <option value="Tennessee - TN">Tennessee - TN</option>
-            <option value="Texas - TX">Texas - TX</option>
-            <option value="Utah - UT">Utah - UT</option>
-            <option value="Vermont - VT">Vermont - VT</option>
-            <option value="Virginia - VA">Virginia - VA</option>
-            <option value="Washington - WA">Washington - WA</option>
-            <option value="West Virginia - WV">West Virginia - WV</option>
-            <option value="Wisconsin - WI">Wisconsin - WI</option>
-            <option value="Wyoming - WY">Wyoming - WY</option>
-          </TextField>
-        </div>
-      </div>
-      <div className="flex flex-wrap justify-around">
-        <div className="px-2 lg:w-1/2 w-full py-4">
-          <TextField
-            name="account.business_category"
-            error={!!errors["account.business_category"]}
-            label="Business Category"
-            helperText={errors["account.business_category"] ? errors["account.business_category"].message : ""}
-            select
-            inputRef={register({
-              required: "This field is required"
-            })}
-            fullWidth
-            SelectProps={{
-              native: true
-            }}
-          >
-            <option value="" />
-            <option value="Restaurants">Restaurants</option>
-            <option value="Construction">Construction</option>
-            <option value="Retail">Retail</option>
-            <option value="Wholesale">Wholesale</option>
-            <option value="Professional Services">Professional Services</option>
-            <option value="Transportation">Transportation</option>
-            <option value="Technology">Technology</option>
-            <option value="Medical/Dental">Medical/Dental</option>
-            <option value="Others">Others</option>
-          </TextField>
-        </div>
-        <div className="px-2 lg:w-1/2 w-full py-4">
-          <TextField
-            name="account.type_of_product_services_sold"
-            error={!!errors["account.type_of_product_services_sold"]}
-            label="Type of Product / Service"
-            helperText={errors["account.type_of_product_services_sold"] ? errors["account.type_of_product_services_sold"].message : ""}
-            type="text"
-            inputRef={register({
-              required: "This field is required"
-            })}
-            fullWidth
-          />
-        </div>
-      </div>
-      <div className="flex flex-wrap justify-around">
-        <div className="px-2 lg:w-1/2 w-full py-4">
-          <TextField
-            name="account.home_based"
-            error={!!errors["account.home_based"]}
-            label="Home-based Business?"
-            helperText={errors["account.home_based"] ? errors["account.home_based"].message : ""}
-            select
-            inputRef={register({
-              required: "This field is required"
-            })}
-            fullWidth
-            autoComplete="off"
-            margin="normal"
-            SelectProps={{
-              native: true
-            }}
-          >
-            <option value="" />
-            <option value="YES">YES</option>
-            <option value="NO">NO</option>
-          </TextField>
-        </div>
-        <div className="px-2 lg:w-1/2 w-full py-4">
-          <TextField
-            name="account.business_start_date"
-            label="Business Start Date"
-            placeholder="02/2019"
-            error={!!errors["account.business_start_date"]}
-            helperText={errors["account.business_start_date"] && errors["account.business_start_date"].message}
-            type="text"
-            inputRef={register({
-              required: "This field is required",
-              pattern: {
-                value: /^(0[1-9]|1[0-2])\/?([0-9]{4})$/,
-                message: "Invalid format ex) 02/2019"
-              }
-            })}
-            fullWidth
-          />
-        </div>
-      </div>
-      <div className="flex flex-wrap justify-around">
-        <div className="px-2 lg:w-1/2 w-full py-4">
-          <TextField
-            name="account.num_of_employees"
-            error={!!errors["account.num_of_employees"]}
-            label="# of Employees"
-            helperText={errors["account.num_of_employees"] ? errors["account.num_of_employees"].message : ""}
-            select
-            inputRef={register({
-              required: "This field is required"
-            })}
-            fullWidth
-            SelectProps={{
-              native: true
-            }}
-          >
-            <option value="" />
-            <option value="Just me">Just me</option>
-            <option value="2 to 5">2 to 5</option>
-            <option value="6 to 10">6 to 10</option>
-            <option value="11 to 25">11 to 25</option>
-            <option value="26 or more">26 or more</option>
-          </TextField>
-        </div>
-        <div className="px-2 lg:w-1/2 w-full py-4">
-          <TextField
-            name="account.business_website_address"
-            label="Business Website Address(optional)"
-            inputRef={register({
-              required: "This field is required"
-            })}
-            type="text"
-            fullWidth
-          />
-        </div>
-      </div>
-      <div className="flex flex-wrap justify-around">
-        <div className="px-2 lg:w-1/2 w-full py-4">
-          <TextField
-            name="account.business_location_street"
-            error={!!errors["account.business_location_street"]}
-            label="Business Location Street"
-            helperText={errors["account.business_location_street"] ? errors["account.business_location_street"].message : ""}
-            type="text"
-            inputRef={register({
-              required: "This field is required"
-            })}
-            fullWidth
-          />
-        </div>
-        <div className="px-2 lg:w-1/2 w-full py-4">
-          <TextField
-            name="account.business_location_city"
-            error={!!errors["account.business_location_city"]}
-            label="Business Location City"
-            inputRef={register({
-              required: "This field is required"
-            })}
-            helperText={errors["account.business_location_city"] ? errors["account.business_location_city"].message : ""}
-            type="text"
-            fullWidth
-          />
-        </div>
-      </div>
-      <div className="flex flex-wrap justify-around">
-        <div className="px-2 lg:w-1/2 w-full py-4">
-          <TextField
-            name="account.business_location_state"
-            error={!!errors["account.business_location_state"]}
-            label="Business Location State"
-            helperText={errors["account.business_location_state"] ? errors["account.business_location_state"].message : ""}
-            select
-            inputRef={register({
-              required: "This field is required"
-            })}
-            fullWidth
-            SelectProps={{
-              native: true
-            }}
-          >
-            <option value="" />
-            <option value="Alabama - AL">Alabama - AL</option>
-            <option value="Alaska - AK">Alaska - AK</option>
-            <option value="Arizona - AZ">Arizona - AZ</option>
-            <option value="Arkansas - AR">Arkansas - AR</option>
-            <option value="California - CA">California - CA</option>
-            <option value="Colorado - CO">Colorado - CO</option>
-            <option value="Connecticut - CT">Connecticut - CT</option>
-            <option value="Delaware - DE">Delaware - DE</option>
-            <option value="Florida - FL">Florida - FL</option>
-            <option value="Georgia - GA">Georgia - GA</option>
-            <option value="Hawaii - HI">Hawaii - HI</option>
-            <option value="Idaho - ID">Idaho - ID</option>
-            <option value="Illinois - IL">Illinois - IL</option>
-            <option value="Indiana - IN">Indiana - IN</option>
-            <option value="Iowa - IA">Iowa - IA</option>
-            <option value="Kansas - KS">Kansas - KS</option>
-            <option value="Kentucky - KY">Kentucky - KY</option>
-            <option value="Louisiana - LA">Louisiana - LA</option>
-            <option value="Maine - ME">Maine - ME</option>
-            <option value="Maryland - MD">Maryland - MD</option>
-            <option value="Massachusetts - MA">Massachusetts - MA</option>
-            <option value="Michigan - MI">Michigan - MI</option>
-            <option value="Minnesota - MN">Minnesota - MN</option>
-            <option value="Mississippi - MS">Mississippi - MS</option>
-            <option value="Missouri - MO">Missouri - MO</option>
-            <option value="Montana - MT">Montana - MT</option>
-            <option value="Nebraska - NE">Nebraska - NE</option>
-            <option value="Nevada - NV">Nevada - NV</option>
-            <option value="Hampshire - NH">Hampshire - NH</option>
-            <option value="New Jersey - NJ">New Jersey - NJ</option>
-            <option value="New Mexico - NM">New Mexico - NM</option>
-            <option value="New York - NY">New York - NY</option>
-            <option value="North Carolina - NC">North Carolina - NC</option>
-            <option value="North Dakota - ND">North Dakota - ND</option>
-            <option value="Ohio - OH">Ohio - OH</option>
-            <option value="Oklahoma - OK">Oklahoma - OK</option>
-            <option value="Oregon - OR">Oregon - OR</option>
-            <option value="Pennsylvania - PA">Pennsylvania - PA</option>
-            <option value="Rhode Island - RI">Rhode Island - RI</option>
-            <option value="South Carolina - SC">South Carolina - SC</option>
-            <option value="South Dakota - SD">South Dakota - SD</option>
-            <option value="Tennessee - TN">Tennessee - TN</option>
-            <option value="Texas - TX">Texas - TX</option>
-            <option value="Utah - UT">Utah - UT</option>
-            <option value="Vermont - VT">Vermont - VT</option>
-            <option value="Virginia - VA">Virginia - VA</option>
-            <option value="Washington - WA">Washington - WA</option>
-            <option value="West Virginia - WV">West Virginia - WV</option>
-            <option value="Wisconsin - WI">Wisconsin - WI</option>
-            <option value="Wyoming - WY">Wyoming - WY</option>
-          </TextField>
-        </div>
-        <div className="px-2 lg:w-1/2 w-full py-4">
-          <RHFInput
-            mode="onChange"
-            name="account.business_location_zipcode"
-            error={!!errors["account.business_location_zipcode"]}
-            helperText={errors["account.business_location_zipcode"] ? errors["account.business_location_zipcode"].message : ""}
-            rules={{ required: "This field is required" }}
-            register={register}
-            setValue={setValue}
-            as={
-              <NumberFormat
-                label="Business Location Zip Code"
-                type="tel"
+        <div className="px-2 lg:w-1/3 w-full py-4">
+          <FastField name="account.dba" type="text" label="DBA (Optional)">
+            {({ field, form }) => (
+              <TextField
+                inputProps={{ className: "bg-white border-1 rounded-sm" }}
+                variant="filled"
+                {...field}
+                label="DBA (Optional)"
+                type="text"
                 fullWidth
-                autoComplete="off"
-                margin="normal"
-                isNumericString
-                customInput={TextField}
-                isAllowed={value => {
-                  if (value.formattedValue.length > 5) {
-                    return false;
-                  }
-                  return true;
-                }}
               />
-            }
-          />
+            )}
+          </FastField>
+        </div>
+        <div className="px-2 lg:w-1/3 w-full py-4">
+          <FastField label="Federal Tax ID" name="account.tax_id">
+            {({ field, form: { touched, error }, meta }) => {
+              return (
+                <NumberFormat
+                  {...field}
+                  error={meta.touched && !meta.value}
+                  helperText={meta.touched && !meta.value ? "This field is required" : ""}
+                  label="Federal Tax ID"
+                  type="tel"
+                  fullWidth
+                  autoComplete="off"
+                  variant="filled"
+                  isNumericString
+                  customInput={TextField}
+                  format={formatTaxId}
+                />
+              );
+            }}
+          </FastField>
         </div>
       </div>
       <div className="flex flex-wrap justify-around">
-        <div className="px-2 lg:w-1/2 w-full py-4">
-          <TextField
-            name="account.rent_or_own"
-            error={!!errors["account.rent_or_own"]}
-            label="Rent Or Own?"
-            helperText={errors["account.rent_or_own"] ? errors["account.rent_or_own"].message : ""}
-            select
-            inputRef={register({
-              required: "This field is required"
-            })}
-            fullWidth
-            SelectProps={{
-              native: true
-            }}
-          >
-            <option value="" />
-            <option value="Rent/Lease">Rent/Lease</option>
-            <option value="Own">Own</option>
-          </TextField>
-        </div>
-        <div className="px-2 lg:w-1/2 w-full py-4">
-          <RHFInput
-            mode="onChange"
-            name="account.monthly_rent_mortgage_payment"
-            error={!!errors["account.monthly_rent_mortgage_payment"]}
-            helperText={errors["account.monthly_rent_mortgage_payment"] ? errors["account.monthly_rent_mortgage_payment"].message : ""}
-            as={
-              <NumberFormat
-                label="Monthly Rent/Mortgage Payment"
-                type="tel"
+        <div className="px-2 lg:w-1/3 w-full py-4">
+          <FastField name="account.legal_entity_type" label="Business Entity Type">
+            {({ field, form, meta }) => (
+              <TextField
+                label="Business Entity Type"
+                {...field}
+                error={meta.touched && !meta.value}
+                helperText={meta.touched && !meta.value ? "This field is required" : ""}
+                type="text"
                 fullWidth
+                select
                 autoComplete="off"
-                margin="normal"
-                isNumericString
-                customInput={TextField}
-                thousandSeparator={true}
-                isAllowed={value => {
-                  if (value.floatValue > 50000) {
-                    return false;
-                  }
-                  return true;
-                }}
-                prefix={"$"}
+                variant="filled"
+              >
+                <MenuItem value="Corporation">Corporation</MenuItem>
+                <MenuItem value="LLC">LLC</MenuItem>
+                <MenuItem value="Partnership">Partnership</MenuItem>
+                <MenuItem value="Sole Proprietorship">Sole Proprietorship</MenuItem>
+              </TextField>
+            )}
+          </FastField>
+        </div>
+        <div className="px-2 lg:w-1/3 w-full py-4">
+          <FastField name="account.business_category" label="Business Category">
+            {({ field, form, meta }) => (
+              <TextField
+                {...field}
+                error={meta.touched && !meta.value}
+                helperText={meta.touched && !meta.value ? "This field is required" : ""}
+                label="Business Category"
+                select
+                variant="filled"
+                fullWidth
+              >
+                <MenuItem value="Restaurants">Restaurants</MenuItem>
+                <MenuItem value="Construction">Construction</MenuItem>
+                <MenuItem value="Retail">Retail</MenuItem>
+                <MenuItem value="Wholesale">Wholesale</MenuItem>
+                <MenuItem value="Professional Services">Professional Services</MenuItem>
+                <MenuItem value="Transportation">Transportation</MenuItem>
+                <MenuItem value="Technology">Technology</MenuItem>
+                <MenuItem value="Medical/Dental">Medical/Dental</MenuItem>
+                <MenuItem value="Others">Others</MenuItem>
+              </TextField>
+            )}
+          </FastField>
+        </div>
+
+        <div className="px-2 lg:w-1/3 w-full py-4">
+          <FastField name="account.business_start_date" label="Business Start Date">
+            {({ field, form: { touched, errors }, meta }) => {
+              return (
+                <TextField
+                  {...field}
+                  label="Business Start Date"
+                  placeholder="02/2019"
+                  error={meta.touched && !!meta.error}
+                  helperText={meta.touched && meta.error ? meta.error : ""}
+                  type="text"
+                  variant="filled"
+                  fullWidth
+                />
+              );
+            }}
+          </FastField>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap justify-around">
+        <div className="px-2 lg:w-1/3 w-full py-4">
+          <FastField name="account.num_of_employees" type="text" label="Number of Employees">
+            {({ field, form: { touched, errors }, meta }) => {
+              return (
+                <TextField
+                  {...field}
+                  label="Number of Employees"
+                  error={meta.touched && !meta.value}
+                  helperText={meta.touched && !meta.value ? "This field is required" : ""}
+                  select
+                  fullWidth
+                  autoComplete="off"
+                  variant="filled"
+                >
+                  <MenuItem value="Just me">Just me</MenuItem>
+                  <MenuItem value="2 to 5">2 to 5</MenuItem>
+                  <MenuItem value="6 to 10">6 to 10</MenuItem>
+                  <MenuItem value="11 to 25">11 to 25</MenuItem>
+                  <MenuItem value="26 or more">26 or more</MenuItem>
+                </TextField>
+              );
+            }}
+          </FastField>
+        </div>
+
+        <div className="px-2 lg:w-1/3 w-full py-4">
+          <FastField name="account.phone" label="Business Phone">
+            {({ field, form, meta }) => {
+              return (
+                <NumberFormat
+                  {...field}
+                  error={meta.touched && !meta.value}
+                  helperText={meta.touched && !meta.value ? "This field is required" : ""}
+                  label="Business Phone"
+                  type="tel"
+                  fullWidth
+                  autoComplete="off"
+                  variant="filled"
+                  isNumericString
+                  format={formatPhoneNumber}
+                  customInput={TextField}
+                />
+              );
+            }}
+          </FastField>
+        </div>
+        <div className="px-2 lg:w-1/3 w-full py-4">
+          <FastField name="account.business_website_address" label="Business Website (Optional)">
+            {({ field, form: { touched, errors }, meta }) => {
+              return <TextField {...field} label="Business Website (Optional)" type="text" fullWidth variant="filled" />;
+            }}
+          </FastField>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap justify-around">
+        <div className="px-2 lg:w-1/3 w-full py-4">
+          <FastField name="account.home_based" type="text" label="Home Based Business?">
+            {({ field, form: { touched, errors }, meta }) => {
+              return (
+                <TextField
+                  {...field}
+                  label="Home Based Business?"
+                  error={meta.touched && !meta.value}
+                  helperText={meta.touched && !meta.value ? "This field is required" : ""}
+                  select
+                  fullWidth
+                  autoComplete="off"
+                  variant="filled"
+                >
+                  <MenuItem value="YES">YES</MenuItem>
+                  <MenuItem value="NO">NO</MenuItem>
+                </TextField>
+              );
+            }}
+          </FastField>
+        </div>
+        <div className="px-2 lg:w-1/3 w-full py-4">
+          <FastField label="Rent or Own?" name="account.rent_or_own">
+            {({ field, form: { touched, error }, meta }) => {
+              return (
+                <TextField
+                  {...field}
+                  label="Rent or Own?"
+                  error={meta.touched && !meta.value}
+                  helperText={meta.touched && !meta.value ? "This field is required" : ""}
+                  select
+                  variant="filled"
+                  fullWidth
+                >
+                  <MenuItem value="Rent/Lease">Rent/Lease</MenuItem>
+                  <MenuItem value="Own">Own</MenuItem>
+                </TextField>
+              );
+            }}
+          </FastField>
+        </div>
+        <div className="px-2 lg:w-1/3 w-full py-4">
+          <FastField label="Rent or Mortgage Payment" name="account.monthly_rent_mortgage_payment">
+            {({ field, form: { touched, error }, meta }) => {
+              return (
+                <NumberFormat
+                  {...field}
+                  error={meta.touched && !meta.value}
+                  helperText={meta.touched && !meta.value ? "This field is required" : ""}
+                  label="Rent or Mortgage Payment"
+                  type="tel"
+                  fullWidth
+                  autoComplete="off"
+                  variant="filled"
+                  isNumericString
+                  customInput={TextField}
+                  thousandSeparator={true}
+                  isAllowed={value => {
+                    if (value.floatValue > 50000) {
+                      return false;
+                    }
+                    return true;
+                  }}
+                  prefix={"$"}
+                />
+              );
+            }}
+          </FastField>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap justify-around">
+        <div className="px-2 lg:w-1/3 w-full py-4">
+          <FastField name="account.business_location_street" label="Business Street Address">
+            {({ field, form: { touched, errors }, meta }) => {
+              return (
+                <TextField
+                  {...field}
+                  label="Business Street Address"
+                  error={meta.touched && !meta.value}
+                  helperText={meta.touched && !meta.value ? "This field is required" : ""}
+                  type="text"
+                  variant="filled"
+                  fullWidth
+                />
+              );
+            }}
+          </FastField>
+        </div>
+        <div className="px-2 lg:w-1/3 w-full py-4">
+          <FastField label="Business City" name="account.business_location_city">
+            {({ field, form: { touched, errors }, meta }) => {
+              return (
+                <TextField
+                  {...field}
+                  label="Business City"
+                  error={meta.touched && !meta.value}
+                  helperText={meta.touched && !meta.value ? "This field is required" : ""}
+                  type="text"
+                  variant="filled"
+                  fullWidth
+                />
+              );
+            }}
+          </FastField>
+        </div>
+
+        <div className="lg:w-1/3 w-full py-4 flex">
+          <div className="px-2 lg:w-1/2 w-full">
+            <FastField name="account.business_location_state" label="State">
+              {({ field, form: { touched, errors }, meta }) => {
+                return (
+                  <TextField
+                    {...field}
+                    label="State"
+                    error={meta.touched && !meta.value}
+                    helperText={meta.touched && !meta.value ? "This field is required" : ""}
+                    select
+                    variant="filled"
+                    fullWidth
+                  >
+                    <MenuItem value="Alabama - AL">Alabama - AL</MenuItem>
+                    <MenuItem value="Alaska - AK">Alaska - AK</MenuItem>
+                    <MenuItem value="Arizona - AZ">Arizona - AZ</MenuItem>
+                    <MenuItem value="Arkansas - AR">Arkansas - AR</MenuItem>
+                    <MenuItem value="California - CA">California - CA</MenuItem>
+                    <MenuItem value="Colorado - CO">Colorado - CO</MenuItem>
+                    <MenuItem value="Connecticut - CT">Connecticut - CT</MenuItem>
+                    <MenuItem value="Delaware - DE">Delaware - DE</MenuItem>
+                    <MenuItem value="Florida - FL">Florida - FL</MenuItem>
+                    <MenuItem value="Georgia - GA">Georgia - GA</MenuItem>
+                    <MenuItem value="Hawaii - HI">Hawaii - HI</MenuItem>
+                    <MenuItem value="Idaho - ID">Idaho - ID</MenuItem>
+                    <MenuItem value="Illinois - IL">Illinois - IL</MenuItem>
+                    <MenuItem value="Indiana - IN">Indiana - IN</MenuItem>
+                    <MenuItem value="Iowa - IA">Iowa - IA</MenuItem>
+                    <MenuItem value="Kansas - KS">Kansas - KS</MenuItem>
+                    <MenuItem value="Kentucky - KY">Kentucky - KY</MenuItem>
+                    <MenuItem value="Louisiana - LA">Louisiana - LA</MenuItem>
+                    <MenuItem value="Maine - ME">Maine - ME</MenuItem>
+                    <MenuItem value="Maryland - MD">Maryland - MD</MenuItem>
+                    <MenuItem value="Massachusetts - MA">Massachusetts - MA</MenuItem>
+                    <MenuItem value="Michigan - MI">Michigan - MI</MenuItem>
+                    <MenuItem value="Minnesota - MN">Minnesota - MN</MenuItem>
+                    <MenuItem value="Mississippi - MS">Mississippi - MS</MenuItem>
+                    <MenuItem value="Missouri - MO">Missouri - MO</MenuItem>
+                    <MenuItem value="Montana - MT">Montana - MT</MenuItem>
+                    <MenuItem value="Nebraska - NE">Nebraska - NE</MenuItem>
+                    <MenuItem value="Nevada - NV">Nevada - NV</MenuItem>
+                    <MenuItem value="Hampshire - NH">Hampshire - NH</MenuItem>
+                    <MenuItem value="New Jersey - NJ">New Jersey - NJ</MenuItem>
+                    <MenuItem value="New Mexico - NM">New Mexico - NM</MenuItem>
+                    <MenuItem value="New York - NY">New York - NY</MenuItem>
+                    <MenuItem value="North Carolina - NC">North Carolina - NC</MenuItem>
+                    <MenuItem value="North Dakota - ND">North Dakota - ND</MenuItem>
+                    <MenuItem value="Ohio - OH">Ohio - OH</MenuItem>
+                    <MenuItem value="Oklahoma - OK">Oklahoma - OK</MenuItem>
+                    <MenuItem value="Oregon - OR">Oregon - OR</MenuItem>
+                    <MenuItem value="Pennsylvania - PA">Pennsylvania - PA</MenuItem>
+                    <MenuItem value="Rhode Island - RI">Rhode Island - RI</MenuItem>
+                    <MenuItem value="South Carolina - SC">South Carolina - SC</MenuItem>
+                    <MenuItem value="South Dakota - SD">South Dakota - SD</MenuItem>
+                    <MenuItem value="Tennessee - TN">Tennessee - TN</MenuItem>
+                    <MenuItem value="Texas - TX">Texas - TX</MenuItem>
+                    <MenuItem value="Utah - UT">Utah - UT</MenuItem>
+                    <MenuItem value="Vermont - VT">Vermont - VT</MenuItem>
+                    <MenuItem value="Virginia - VA">Virginia - VA</MenuItem>
+                    <MenuItem value="Washington - WA">Washington - WA</MenuItem>
+                    <MenuItem value="West Virginia - WV">West Virginia - WV</MenuItem>
+                    <MenuItem value="Wisconsin - WI">Wisconsin - WI</MenuItem>
+                    <MenuItem value="Wyoming - WY">Wyoming - WY</MenuItem>
+                  </TextField>
+                );
+              }}
+            </FastField>
+          </div>
+          <div className="px-2 lg:w-1/2 w-full">
+            <FastField label="Zip Code" name="account.business_location_zipcode">
+              {({ field, form: { touched, error }, meta }) => {
+                return (
+                  <NumberFormat
+                    {...field}
+                    label="Zip Code"
+                    error={meta.touched && !meta.value}
+                    helperText={meta.touched && !meta.value ? "This field is required" : ""}
+                    type="tel"
+                    fullWidth
+                    autoComplete="off"
+                    variant="filled"
+                    isNumericString
+                    customInput={TextField}
+                    isAllowed={value => {
+                      if (value.formattedValue.length > 5) {
+                        return false;
+                      }
+                      return true;
+                    }}
+                  />
+                );
+              }}
+            </FastField>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap justify-around"></div>
+      <div className="flex flex-wrap justify-around"></div>
+      <div className="">
+        <div className="px-2 w-full py-4">
+          <FastField name="account.type_of_product_services_sold" label="Briefly describe your business - Product/Service">
+            {({ field, form, meta }) => (
+              <TextField
+                {...field}
+                error={meta.touched && !meta.value}
+                helperText={meta.touched && !meta.value ? "This field is required" : ""}
+                label="Briefly describe your business - Product/Service"
+                type="text"
+                variant="filled"
+                fullWidth
               />
-            }
-            register={register}
-            setValue={setValue}
-            rules={{ required: "This field is required" }}
-          />
+            )}
+          </FastField>
         </div>
       </div>
     </div>
