@@ -55,6 +55,10 @@ function startDate(val) {
   return month + (year.length ? "/" + year : "");
 }
 
+function formatTaxId(val) {
+  return val.replace(/^(\d{2})(\d{6})(\d)?$/, "$1 - $2");
+}
+
 function formatPhoneNumber(str) {
   return str.replace(/^(1|)?(\d{3})(\d{3})(\d{4})(\d)?$/, "($2) $3 - $4");
 }
@@ -67,4 +71,4 @@ function generateSignature(element, name) {
   return canvas;
 }
 
-export { validateDate, startDate, formatPhoneNumber, generateSignature };
+export { validateDate, startDate, formatPhoneNumber, generateSignature, formatTaxId };

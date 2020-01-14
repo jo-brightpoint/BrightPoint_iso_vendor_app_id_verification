@@ -4,11 +4,11 @@ import NumberFormat from "react-number-format";
 import { FastField } from "formik";
 import { validateDate, formatPhoneNumber } from "../utils";
 
-export default function OwnerInformation({ getFieldValue, getValues, setFieldValue, handleChange, handleBlur, values, errors, touched, onChange, index, helpers }) {
+export default function OwnerInfo({ getValues, setFieldValue, handleChange, handleBlur, values, errors, touched, onChange, index, helpers }) {
   return (
     <div>
       <div>
-        <h2 className="text-xl pl-1 pt-10 text-center py-4 uppercase">Owner {index === 1 ? "2" : null} Information</h2>
+        <h2 className="text-3xl pl-1 pt-10 text-center py-4 uppercase">Owner {index === 1 ? "2" : null} Information</h2>
         <div className="flex flex-wrap justify-around">
           <div className="px-2 lg:w-1/3 w-full py-4">
             <FastField name={`contact[${index}].first_name`} label="Owner First Name">
@@ -81,41 +81,6 @@ export default function OwnerInformation({ getFieldValue, getValues, setFieldVal
                     select
                     fullWidth
                     variant="filled"
-                    onChange={e => {
-                      console.log(e.target.value);
-                      // const prevValues = getValues(values.contact[0]);
-                      // console.log(prevValues);
-                      // return;
-                      setFieldValue(`contact[${index}].ownership_range`, e.target.value);
-                      if (values.contact.length === 1) {
-                        if (e.target.value === '50%' || e.target.value === 'Less than 50%') {
-                          helpers.push({
-                            first_name: "",
-                            last_name: "",
-                            ownership_range: "",
-                            title: "",
-                            mobilephone: "",
-                            email: "",
-                            date_of_birth: "",
-                            ssn: "",
-                            fico_score: "",
-                            pref_language: "",
-                            mailing_street: "",
-                            mailing_city: "",
-                            mailing_state: "",
-                            mailing_zip: "",
-                            has_current_judgment: "",
-                            has_previous_judgment: "",
-                            residency_type: "",
-                            bankruptcy_history: ""
-                          })
-                        } else {
-                          helpers.remove(1);
-                        }
-                      } else {
-                        return;
-                      }
-                    }}
                   >
                     <MenuItem value="100%">100%</MenuItem>
                     <MenuItem value="51% - 99%">51% - 99%</MenuItem>
@@ -134,7 +99,7 @@ export default function OwnerInformation({ getFieldValue, getValues, setFieldVal
                     {...field}
                     error={meta.touched && !meta.value}
                     helperText={meta.touched && !meta.value ? "This field is required" : ""}
-                    label="Mobile Phone"
+                    label="Mobile Phone No."
                     type="tel"
                     fullWidth
                     autoComplete="off"
@@ -148,14 +113,14 @@ export default function OwnerInformation({ getFieldValue, getValues, setFieldVal
             </FastField>
           </div>
           <div className="px-2 lg:w-1/3 w-full py-4">
-            <FastField name={`contact[${index}].email`} label="E-mail Address">
+            <FastField name={`contact[${index}].email`} label="Email Address">
               {({ field, form, meta }) => {
                 return (
                   <TextField
                     {...field}
                     error={meta.touched && !meta.value}
                     helperText={meta.touched && !meta.value ? "This field is required" : ""}
-                    label="E-mail Address"
+                    label="Email Address"
                     type="text"
                     variant="filled"
                     fullWidth
@@ -195,14 +160,14 @@ export default function OwnerInformation({ getFieldValue, getValues, setFieldVal
           </div>
           
           <div className="px-2 lg:w-1/3 w-full py-4">
-            <FastField name={`contact[${index}].ssn`} label="Social Security #">
+            <FastField name={`contact[${index}].ssn`} label="Social Security No.">
               {({ field, form, meta }) => {
                 return (
                   <NumberFormat
                     {...field}
                     error={meta.touched && !meta.value}
                     helperText={meta.touched && !meta.value ? "This field is required" : ""}
-                    label="Social Security #"
+                    label="Social Security No."
                     type="tel"
                     fullWidth
                     autoComplete="off"
@@ -410,29 +375,34 @@ export default function OwnerInformation({ getFieldValue, getValues, setFieldVal
             <FastField name={`contact[${index}].driver_license`} label="Driver's License #">
               {({ field, form, meta }) => {
                 return (
-                  <TextField
+                  <NumberFormat
                     {...field}
                     error={meta.touched && !meta.value}
                     helperText={meta.touched && !meta.value ? "This field is required" : ""}
                     label="Driver's License #"
-                    type="text"
+                    type="tel"
                     fullWidth
                     autoComplete="off"
                     variant="filled"
+                    isNumericString
+                    customInput={TextField}
+                    format={val => {
+                      return val.replace(/(\d{3})(\d{2})(\d{4})(\d)?$/, "$1 - $2 - $3");
+                    }}
                   />
                 );
               }}
             </FastField>
           </div>
           <div className="px-2 lg:w-1/3 w-full py-4">
-            <FastField name={`contact[${index}].ssn`} label="Social Security #">
+            <FastField name={`contact[${index}].ssn`} label="Social Security No.">
               {({ field, form, meta }) => {
                 return (
                   <NumberFormat
                     {...field}
                     error={meta.touched && !meta.value}
                     helperText={meta.touched && !meta.value ? "This field is required" : ""}
-                    label="Social Security #"
+                    label="Social Security No."
                     type="tel"
                     fullWidth
                     autoComplete="off"
@@ -475,14 +445,14 @@ export default function OwnerInformation({ getFieldValue, getValues, setFieldVal
           </div>
 
           <div className="px-2 lg:w-1/3 w-full py-4">
-            <FastField name={`contact[${index}].residency_type`} label="Citizenship Status">
+            <FastField name={`contact[${index}].residency_type`} label="What's your citizenship status">
               {({ field, form, meta }) => {
                 return (
                   <TextField
                     {...field}
                     error={meta.touched && !meta.value}
                     helperText={meta.touched && !meta.value ? "This field is required" : ""}
-                    label="Citizenship Status"
+                    label="What's your citizenship status"
                     select
                     fullWidth
                     variant="filled"
@@ -497,12 +467,12 @@ export default function OwnerInformation({ getFieldValue, getValues, setFieldVal
           </div>
 
           <div className="px-2 lg:w-1/3 w-full py-4">
-            <FastField name={`contact[${index}].pref_language`} label="Language Preference (Optional)">
+            <FastField name={`contact[${index}].pref_language`} label="Language Preference (optional)">
               {({ field, form, meta }) => {
                 return (
                   <TextField
                     {...field}
-                    label="Language Preference (Optional)"
+                    label="Language Preference (optional)"
                     select
                     fullWidth
                     variant="filled"
@@ -540,14 +510,14 @@ export default function OwnerInformation({ getFieldValue, getValues, setFieldVal
             </FastField>
           </div>
           <div className="px-2 lg:w-1/3 w-full py-4">
-            <FastField name={`contact[${index}].has_previous_judgment`} label="Have any pending lawsuits?">
+            <FastField name={`contact[${index}].has_previous_judgment`} label="Have any Pending Lawsuits?">
               {({ field, form, meta }) => {
                 return (
                   <TextField
                     {...field}
                     error={meta.touched && !meta.value}
                     helperText={meta.touched && !meta.value ? "This field is required" : ""}
-                    label="Have any pending lawsuits?"
+                    label="Have any Pending Lawsuits?"
                     select
                     fullWidth
                     variant="filled"
@@ -560,14 +530,14 @@ export default function OwnerInformation({ getFieldValue, getValues, setFieldVal
             </FastField>
           </div>
           <div className="px-2 lg:w-1/3 w-full py-4">
-            <FastField name={`contact[${index}].bankruptcy_history`} label="Have bankruptcy history?">
+            <FastField name={`contact[${index}].bankruptcy_history`} label="Have Bankruptcy History?">
               {({ field, form, meta }) => {
                 return (
                   <TextField
                     {...field}
                     error={meta.touched && !meta.value}
                     helperText={meta.touched && !meta.value ? "This field is required" : ""}
-                    label="Have bankruptcy history?"
+                    label="Have Bankruptcy History?"
                     select
                     variant="filled"
                     fullWidth

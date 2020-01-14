@@ -2,24 +2,18 @@ import React from "react";
 
 const Header = () => {
   return (
-    <div>
-      <div className="flex flex-start w-full h-20 bg-white">
-        <img
-          className="p-5 w-2/4 lg:w-2/12"
-          src="https://brightpoint.net/static/media/brightpoint.70bab5b3.svg"
-          alt="BrightPoint Capital Logo"
-        />
-      </div>
-      <div className="w-full bg-blue-900 py-2">
-        <div className="flex justify-center w-full lg:w-1/2 mx-auto text-white">
-          <p className="mr-2">Questions?</p>
-          <p className="mx-1">(888) 567-8912</p>
-          <p className="ml-2">M-F 7a-4p PST</p>
-        </div>
-      </div>
-      <div className="w-full shadow py-2 bg-white">
-        <div className="flex justify-center w-full lg:w-1/2 mx-auto text-gray-700 text-lg lg:text-2xl font-light">
-          <p className="mr-2">Complete your application</p>
+    <div className="w-full bg-bpc-navy">
+      <div className="container mx-auto">
+        <div className="w-full flex justify-around items-center">
+          <div className="w-full">
+            <img className="py-5" src={require("../images/BrightPoint-logo.svg")} alt="BrightPoint Capital Logo" />
+          </div>
+          <div className="w-2/3 flex justify-between items-center">
+            <div className="flex justify-end w-full items-center">
+              <img className="py-5" src={require("../images/Comodo-SSL.svg")} alt="Comodo Seal" />
+              <p className="text-white pl-4">Support (888) 567-8912</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
