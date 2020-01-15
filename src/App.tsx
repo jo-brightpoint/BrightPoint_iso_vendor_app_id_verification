@@ -1,205 +1,29 @@
 import * as React from "react";
-import { Redirect } from "react-router-dom";
-import queryString from "query-string";
-import Layout from "./shared/Layout";
-import Header from "./components/Header";
-import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-import { Theme } from "@material-ui/core";
-
-import { Formik, FieldArray, FormikProps } from "formik";
-import FinancingTypeContainer from "./components/FinancingTypeContainer";
-import BusinessInformation from "./components/BusinessInformation";
-import OwnerInformation from "./components/OwnerInformation";
-import FinancialInformation from "./components/FinancialInformation";
-import EquipmentInformation from "./components/EquipmentInformation";
-
-import { schema as ApplicationValidation } from "./validationSchema";
-import UploadDocument from "./components/UploadDocument";
-
 import axios from "axios";
+import queryString from "query-string";
 import publicIp from "public-ip";
+
+import { ThemeProvider } from "@material-ui/core/styles";
+import { FieldArray, Formik, FormikProps } from "formik";
+import { Redirect } from "react-router-dom";
+
+import Header from "./components/Header";
+import OwnerInformation from "./components/OwnerInformation";
 import SignatureSection from "./components/SignatureSection";
+import UploadDocument from "./components/UploadDocument";
+import BusinessInformation from "./components/BusinessInformation";
+import EquipmentInformation from "./components/EquipmentInformation";
+import FinancialInformation from "./components/FinancialInformation";
+import FinancingTypeContainer from "./components/FinancingTypeContainer";
 
+import Layout from "./shared/Layout";
+import theme from "./theme";
 import { data } from "./data";
+import { IFileObj, IProps, IState } from "./types";
+import { schema as ApplicationValidation } from "./validationSchema";
 
-const theme: Theme = createMuiTheme();
-
-theme.overrides = {
-  MuiFilledInput: {
-    root: {
-      "font-family": '"Messina","-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue","Arial", "sans-serif"',
-      border: "1px solid #E5E5E5",
-      overflow: "hidden",
-      borderRadius: 4,
-      backgroundColor: "#fff",
-      "&:hover": {
-        backgroundColor: "#fff"
-      },
-      "&$focused": {
-        backgroundColor: "#fff"
-      },
-      "&.Mui-error": {
-        border: "1px solid #DE071C",
-        backgroundColor: "#FEF0F0"
-      }
-    },
-    underline: {
-      "&:hover:before": {
-        borderBottom: "0"
-      },
-      "&:before": {
-        borderBottom: "0"
-      },
-      "&:after": {
-        borderBottom: "0"
-      },
-      "&.Mui-focused:after": {
-        border: "none"
-      },
-      "&.Mui-error:after": {
-        border: "none"
-      }
-    }
-  },
-  MuiButton: {
-    root: {
-      "margin-left": ".5rem",
-      "margin-top": ".5rem"
-    }
-  },
-  MuiInputLabel: {
-    root: {
-      fontSize: "16px",
-      fontFamily: "Messina"
-    },
-    focused: {
-      color: "#666666 !important"
-    }
-  },
-  MuiFormHelperText: {
-    contained: {
-      marginLeft: "0",
-      fontWeight: "bold"
-    }
-  },
-  MuiMenuItem: {
-    root: {
-      "&:last-child .MuiTouchRipple-root": {
-        borderBottom: 0
-      }
-    }
-  },
-  MuiListItem: {
-    button: {
-      backgroundColor: "#EBEBEB"
-    }
-  },
-  MuiTouchRipple: {
-    root: {
-      borderBottom: "1px solid #eee",
-      width: "90%",
-      margin: "0 auto"
-    }
-  }
-};
-
-interface Props {}
-
-interface Account {
-  company: string;
-  dba: string;
-  legal_entity_type: string;
-  state_of_org: string;
-  business_category: string;
-  type_of_product_services_sold: string;
-  home_based: string;
-  business_start_date: string;
-  num_of_employees: string;
-  business_website: string;
-  business_location_street: string;
-  business_location_city: string;
-  business_location_state: string;
-  business_location_zipcode: string;
-  rent_or_own: string;
-  monthly_rent_mortgage_payment: string;
-  tax_id: string;
-}
-
-interface Contact {
-  first_name: string;
-  last_name: string;
-  ownership_range: string;
-  title: string;
-  mobilephone: string;
-  email: string;
-  date_of_birth: string;
-  ssn: string;
-  fico_score: string;
-  pref_language: string;
-  mailing_street: string;
-  mailing_city: string;
-  mailing_state: string;
-  mailing_zip: string;
-  has_current_judgment: string;
-  has_previous_judgment: string;
-  residency_type: string;
-  bankruptcy_history: string;
-  driver_license: string;
-}
-
-interface Opp {
-  type: string;
-  amount_requested_exact: string;
-  important_factor: string;
-  how_fast: string;
-  collateral_option: string;
-  avg_monthly_revenue: string;
-  cc_sales_ratio: string;
-  daily_balance_range: string;
-  filed_previous_taxreturn: string;
-  has_online_banking: string;
-  loan_history: string;
-  vendor_name: string;
-  vendor_website: string;
-  vendor_email: string;
-  vendor_phone: string;
-  vendor_street: string;
-  vendor_city: string;
-  vendor_state: string;
-  vendor_zip: string;
-  equipment_condition: string;
-  equipment_cost: string;
-  equipment_description: string;
-  equipment_desired_term: string;
-  equipment_purchase_option: string;
-  have_quote_invoice: string;
-}
-
-interface State {
-  type: string | string[] | null | undefined;
-  external_id: string | string[] | null | undefined;
-  folder_id: string;
-  files: FileObj[];
-  client_ip: string;
-  signature: string[][];
-  account: Account;
-  opp: Opp;
-  contact: Contact[];
-  loading: boolean;
-  application_finished: boolean;
-  showErrorMsg: boolean;
-  errorMessage: string | string[] | null | undefined;
-}
-
-interface FileObj {
-  base64: string | ArrayBuffer | null;
-  filename: string;
-  type: string;
-  size: number;
-}
-
-class App extends React.Component<Props, State> {
-  state: State = {
+class App extends React.Component<IProps, IState> {
+  state: IState = {
     type: "",
     external_id: "",
     folder_id: "",
@@ -297,7 +121,7 @@ class App extends React.Component<Props, State> {
     }
   }
 
-  submitHandler = (values: State) => {
+  submitHandler = (values: IState) => {
     window.scrollTo(0, 0);
     this.setState(
       {
@@ -382,8 +206,8 @@ class App extends React.Component<Props, State> {
     for (let i = 0; i < file.length; i++) {
       const reader = new FileReader();
       reader.onload = e => {
-        const newFiles: Array<FileObj> = this.state.files && [...this.state.files];
-        let newFileObj: FileObj = {
+        const newFiles: Array<IFileObj> = this.state.files && [...this.state.files];
+        let newFileObj: IFileObj = {
           base64: reader.result,
           filename: file[i].name,
           type: file[i].type,
@@ -412,7 +236,7 @@ class App extends React.Component<Props, State> {
   };
 
   getSignature = (signature: string[]) => {
-    this.setState((prevState: State) => {
+    this.setState((prevState: IState) => {
       const newState = [...prevState.signature, signature];
       return {
         signature: newState
@@ -443,7 +267,7 @@ class App extends React.Component<Props, State> {
               onSubmit={this.submitHandler}
               validationSchema={ApplicationValidation}
             >
-              {({ values, errors, touched, handleSubmit, handleChange, handleBlur, isSubmitting, setFieldValue }: FormikProps<State>) => (
+              {({ values, errors, touched, handleSubmit, handleChange, handleBlur, isSubmitting, setFieldValue }: FormikProps<IState>) => (
                 <form
                   onSubmit={handleSubmit}
                   onKeyDown={e => {
