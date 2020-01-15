@@ -10,13 +10,23 @@ class SignatureSection extends React.Component {
           <SignaturePad values={values} signatureId="signature_1" getSignature={getSignature} index={0} />
           {values.contact[1] && <SignaturePad values={values} signatureId="signature_2" getSignature={getSignature} index={1} />}
         </div>
-        <input
-          className="flex w-1/4 ml-4 mt-8 mb-8 justify-center py-4 px-8 bg-bpc-navy text-white rounded text-xl uppercase"
+        <div className="flex">
+          <button
+            className="flex ml-4 mt-8 mb-8 items-center justify-center bg-bpc-navy text-white rounded text-xl"
+            style={{ width: "300px", height: "50px" }}
+            type="submit"
+          >
+            Submit
+          </button>
+        </div>
+        {/* <input
+          className="flex ml-4 mt-8 mb-8 items-center justify-center py-4 px-8 bg-bpc-navy text-white rounded text-xl"
           type="submit"
-          value="submit"
-        />
+          value="Submit"
+          style={{ width: "300px", height: "50px" }}
+        /> */}
         <p className="text-gray-500 mx-4 agreement-content">
-          By signing below, the Merchant, owners and/or principals (the “Applicant”) certify that Applicant is authorized to submit this
+          By signing above, the Merchant, owners and/or principals (the “Applicant”) certify that Applicant is authorized to submit this
           application and will immediately notify BrightPoint Capital Inc. (“BPC”) of any change in financial condition. All information and
           documents submitted to BPC are true and may be relied upon by BPC and each of its successors, designees, or third party lenders
           (“Assignees”) with whom BPC may share the application. Applicant authorizes BPC and all Assignees to request and review

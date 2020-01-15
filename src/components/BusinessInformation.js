@@ -9,7 +9,7 @@ import { formatPhoneNumber } from "../utils";
 export default function BusinessInformation({ handleChange, handleBlur, values, errors, touched, onChange }) {
   return (
     <div>
-      <h2 className="text-xl pl-1 text-center py-4 uppercase">Business Information</h2>
+      <h2 className="text-xl pl-1 text-center py-4 capitalize">Business Information</h2>
       <div className="flex flex-wrap justify-around">
         <div className="px-2 lg:w-1/3 w-full py-4">
           <FastField name="account.company" type="text" label="Business Legal name">

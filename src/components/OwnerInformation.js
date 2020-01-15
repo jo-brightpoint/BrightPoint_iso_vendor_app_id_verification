@@ -8,7 +8,7 @@ export default function OwnerInformation({ getFieldValue, getValues, setFieldVal
   return (
     <div>
       <div>
-        <h2 className="text-xl pl-1 pt-10 text-center py-4 uppercase">Owner {index === 1 ? "2" : null} Information</h2>
+        <h2 className="text-xl pl-1 pt-10 text-center py-4 capitalize">Owner {index === 1 ? "2" : null} Information</h2>
         <div className="flex flex-wrap justify-around">
           <div className="px-2 lg:w-1/3 w-full py-4">
             <FastField name={`contact[${index}].first_name`} label="Owner First Name">

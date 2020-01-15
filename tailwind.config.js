@@ -39,6 +39,12 @@ module.exports = {
         ],
         serif: ["Georgia", "Cambria", '"Times New Roman"', "Times", "serif"],
         mono: ["Menlo", "Monaco", "Consolas", '"Liberation Mono"', '"Courier New"', "monospace"]
+      },
+      borderRadius: {
+        bpc: "6px"
+      },
+      boxShadow: {
+        bpc: "0 3px 4px 0 rgba(0, 0, 0, 0.27)"
       }
     }
   },

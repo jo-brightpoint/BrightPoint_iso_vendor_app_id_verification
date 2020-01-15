@@ -30,7 +30,7 @@ theme.overrides = {
       border: "1px solid #E5E5E5",
       overflow: "hidden",
       borderRadius: 4,
-      backgroundColor: "#fcfcfb",
+      backgroundColor: "#fff",
       "&:hover": {
         backgroundColor: "#fff"
       },
@@ -40,23 +40,23 @@ theme.overrides = {
       "&.Mui-error": {
         border: "1px solid #DE071C",
         backgroundColor: "#FEF0F0"
-      },
+      }
     },
     underline: {
       "&:hover:before": {
-        "borderBottom": "0"
+        borderBottom: "0"
       },
       "&:before": {
         borderBottom: "0"
       },
       "&:after": {
-        borderBottom: '0'
+        borderBottom: "0"
       },
       "&.Mui-focused:after": {
-        border: 'none'
+        border: "none"
       },
       "&.Mui-error:after": {
-        border: 'none'
+        border: "none"
       }
     }
   },
@@ -67,18 +67,18 @@ theme.overrides = {
     }
   },
   MuiInputLabel: {
-    "root": {
-      "fontSize": "16px",
-      "fontFamily": "Messina"
+    root: {
+      fontSize: "16px",
+      fontFamily: "Messina"
     },
-    "focused": {
-      color: '#666666 !important'
+    focused: {
+      color: "#666666 !important"
     }
   },
   MuiFormHelperText: {
     contained: {
-      "marginLeft": "0",
-      "fontWeight": "bold"
+      marginLeft: "0",
+      fontWeight: "bold"
     }
   },
   MuiMenuItem: {
@@ -88,7 +88,7 @@ theme.overrides = {
       }
     },
     button: {
-      backgroundColor: '#EBEBEB'
+      backgroundColor: "#EBEBEB"
     }
   },
   MuiTouchRipple: {
@@ -355,7 +355,7 @@ class App extends React.Component {
       const newState = [...prevState.signature, signature];
       return {
         signature: newState
-      }
+      };
     });
   };
 
@@ -374,8 +374,8 @@ class App extends React.Component {
 
         <Layout>
           <Header />
-          <h1 className="text-2xl text-center py-4 uppercase text-bpc-navy mt-10">Complete Your Application</h1>
-          <div className="container mx-auto bg-bpc-light-gray p-8 mt-10">
+          <h1 className="text-2xl text-center py-4 capitalize text-bpc-navy mt-10">Complete Your Application</h1>
+          <div className="container mx-auto bg-bpc-light-gray rounded-bpc shadow-bpc p-8 mt-10">
             <Formik
               enableReinitialize={false}
               initialValues={this.state}
@@ -383,7 +383,14 @@ class App extends React.Component {
               validationSchema={ApplicationValidation}
             >
               {({ values, errors, touched, handleChange, handleSubmit, isSubmitting, handleBlur, setFieldValue }) => (
-                <form onSubmit={handleSubmit}>
+                <form
+                  onSubmit={handleSubmit}
+                  onKeyDown={e => {
+                    if ((e.charCode || e.keyCode) === 13) {
+                      e.preventDefault();
+                    }
+                  }}
+                >
                   <ThemeProvider theme={theme}>
                     <FinancingTypeContainer
                       setFieldValue={setFieldValue}
@@ -438,7 +445,7 @@ class App extends React.Component {
                   </ThemeProvider>
 
                   <UploadDocument files={this.state.files} onDrop={this.onFileDrop} removeFile={this.removeFile} />
-                  <SignatureSection files={this.state.files} getSignature={this.getSignature} values={values}/>
+                  <SignatureSection files={this.state.files} getSignature={this.getSignature} values={values} />
                 </form>
               )}
             </Formik>

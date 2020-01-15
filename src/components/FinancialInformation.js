@@ -7,7 +7,7 @@ export default function FinancialInformation({ errors, values, touched, onChange
   return (
     <div>
       <div>
-        <h2 className="text-xl pl-1 pt-10 text-center py-4 uppercase">Financial Information</h2>
+        <h2 className="text-xl pl-1 pt-10 text-center py-4 capitalize">Financial Information</h2>
       </div>
 
       <div className="flex flex-wrap justify-around">
