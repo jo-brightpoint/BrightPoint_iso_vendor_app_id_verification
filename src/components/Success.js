@@ -12,15 +12,15 @@ class Success extends React.Component {
       <React.Fragment>
           <Header />
         <Layout>
-          <div className="success-page h-100vh text-white">
-            <div className="container mx-auto m-24 h-100vh flex justify-center">
+          <div className="success-page text-white">
+            <div className="container mx-auto m-24 flex justify-center">
               <div className="flex flex-col justify-center items-center">
                 <div className="my-8">
-                  <img src={require('../images/green-check.svg')} height="61.1px" width="61.1px" />
+                  <img src={require('../images/green-check.svg')} className="h-16" />
                 </div>
                 <div className="text-center" style={{color: "#000000"}}>
-                  <p className="font-sansBold">Thank you!</p>
-                  <p className="font-sansBold">Your application is successfully submitted. We will contact you very soon!</p>
+                  <p className="font-sansBold lg:text-lg text-sm">Thank you</p>
+                  <p className="font-sansBold lg:text-lg text-sm lg:px-0 px-10">Your application is successfully submitted. We will contact you very soon!</p>
                 </div>
               </div>
             </div>
