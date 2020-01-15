@@ -6,7 +6,7 @@ import { FastField } from "formik";
 import { formatTaxId } from "../utils";
 import { formatPhoneNumber } from "../utils";
 
-export default function BusinessInformation({ handleChange, handleBlur, values, errors, touched, onChange }) {
+export default function BusinessInformation({ values, errors, touched }) {
   return (
     <div>
       <h2 className="text-xl pl-1 text-center py-4 capitalize">Business Information</h2>
@@ -311,56 +311,56 @@ export default function BusinessInformation({ handleChange, handleBlur, values, 
                     variant="filled"
                     fullWidth
                   >
-                    <MenuItem value="Alabama - AL">Alabama - AL</MenuItem>
-                    <MenuItem value="Alaska - AK">Alaska - AK</MenuItem>
-                    <MenuItem value="Arizona - AZ">Arizona - AZ</MenuItem>
-                    <MenuItem value="Arkansas - AR">Arkansas - AR</MenuItem>
-                    <MenuItem value="California - CA">California - CA</MenuItem>
-                    <MenuItem value="Colorado - CO">Colorado - CO</MenuItem>
-                    <MenuItem value="Connecticut - CT">Connecticut - CT</MenuItem>
-                    <MenuItem value="Delaware - DE">Delaware - DE</MenuItem>
-                    <MenuItem value="Florida - FL">Florida - FL</MenuItem>
-                    <MenuItem value="Georgia - GA">Georgia - GA</MenuItem>
-                    <MenuItem value="Hawaii - HI">Hawaii - HI</MenuItem>
-                    <MenuItem value="Idaho - ID">Idaho - ID</MenuItem>
-                    <MenuItem value="Illinois - IL">Illinois - IL</MenuItem>
-                    <MenuItem value="Indiana - IN">Indiana - IN</MenuItem>
-                    <MenuItem value="Iowa - IA">Iowa - IA</MenuItem>
-                    <MenuItem value="Kansas - KS">Kansas - KS</MenuItem>
-                    <MenuItem value="Kentucky - KY">Kentucky - KY</MenuItem>
-                    <MenuItem value="Louisiana - LA">Louisiana - LA</MenuItem>
-                    <MenuItem value="Maine - ME">Maine - ME</MenuItem>
-                    <MenuItem value="Maryland - MD">Maryland - MD</MenuItem>
-                    <MenuItem value="Massachusetts - MA">Massachusetts - MA</MenuItem>
-                    <MenuItem value="Michigan - MI">Michigan - MI</MenuItem>
-                    <MenuItem value="Minnesota - MN">Minnesota - MN</MenuItem>
-                    <MenuItem value="Mississippi - MS">Mississippi - MS</MenuItem>
-                    <MenuItem value="Missouri - MO">Missouri - MO</MenuItem>
-                    <MenuItem value="Montana - MT">Montana - MT</MenuItem>
-                    <MenuItem value="Nebraska - NE">Nebraska - NE</MenuItem>
-                    <MenuItem value="Nevada - NV">Nevada - NV</MenuItem>
-                    <MenuItem value="Hampshire - NH">Hampshire - NH</MenuItem>
-                    <MenuItem value="New Jersey - NJ">New Jersey - NJ</MenuItem>
-                    <MenuItem value="New Mexico - NM">New Mexico - NM</MenuItem>
-                    <MenuItem value="New York - NY">New York - NY</MenuItem>
-                    <MenuItem value="North Carolina - NC">North Carolina - NC</MenuItem>
-                    <MenuItem value="North Dakota - ND">North Dakota - ND</MenuItem>
-                    <MenuItem value="Ohio - OH">Ohio - OH</MenuItem>
-                    <MenuItem value="Oklahoma - OK">Oklahoma - OK</MenuItem>
-                    <MenuItem value="Oregon - OR">Oregon - OR</MenuItem>
-                    <MenuItem value="Pennsylvania - PA">Pennsylvania - PA</MenuItem>
-                    <MenuItem value="Rhode Island - RI">Rhode Island - RI</MenuItem>
-                    <MenuItem value="South Carolina - SC">South Carolina - SC</MenuItem>
-                    <MenuItem value="South Dakota - SD">South Dakota - SD</MenuItem>
-                    <MenuItem value="Tennessee - TN">Tennessee - TN</MenuItem>
-                    <MenuItem value="Texas - TX">Texas - TX</MenuItem>
-                    <MenuItem value="Utah - UT">Utah - UT</MenuItem>
-                    <MenuItem value="Vermont - VT">Vermont - VT</MenuItem>
-                    <MenuItem value="Virginia - VA">Virginia - VA</MenuItem>
-                    <MenuItem value="Washington - WA">Washington - WA</MenuItem>
-                    <MenuItem value="West Virginia - WV">West Virginia - WV</MenuItem>
-                    <MenuItem value="Wisconsin - WI">Wisconsin - WI</MenuItem>
-                    <MenuItem value="Wyoming - WY">Wyoming - WY</MenuItem>
+                    <MenuItem value="AL">Alabama - AL</MenuItem>
+                    <MenuItem value="AK">Alaska - AK</MenuItem>
+                    <MenuItem value="AZ">Arizona - AZ</MenuItem>
+                    <MenuItem value="AR">Arkansas - AR</MenuItem>
+                    <MenuItem value="CA">California - CA</MenuItem>
+                    <MenuItem value="CO">Colorado - CO</MenuItem>
+                    <MenuItem value="CT">Connecticut - CT</MenuItem>
+                    <MenuItem value="DE">Delaware - DE</MenuItem>
+                    <MenuItem value="FL">Florida - FL</MenuItem>
+                    <MenuItem value="GA">Georgia - GA</MenuItem>
+                    <MenuItem value="HI">Hawaii - HI</MenuItem>
+                    <MenuItem value="ID">Idaho - ID</MenuItem>
+                    <MenuItem value="IL">Illinois - IL</MenuItem>
+                    <MenuItem value="IN">Indiana - IN</MenuItem>
+                    <MenuItem value="IA">Iowa - IA</MenuItem>
+                    <MenuItem value="KS">Kansas - KS</MenuItem>
+                    <MenuItem value="KY">Kentucky - KY</MenuItem>
+                    <MenuItem value="LA">Louisiana - LA</MenuItem>
+                    <MenuItem value="ME">Maine - ME</MenuItem>
+                    <MenuItem value="MD">Maryland - MD</MenuItem>
+                    <MenuItem value="MA">Massachusetts - MA</MenuItem>
+                    <MenuItem value="MI">Michigan - MI</MenuItem>
+                    <MenuItem value="MN">Minnesota - MN</MenuItem>
+                    <MenuItem value="MS">Mississippi - MS</MenuItem>
+                    <MenuItem value="MO">Missouri - MO</MenuItem>
+                    <MenuItem value="MT">Montana - MT</MenuItem>
+                    <MenuItem value="NE">Nebraska - NE</MenuItem>
+                    <MenuItem value="NV">Nevada - NV</MenuItem>
+                    <MenuItem value="NH">Hampshire - NH</MenuItem>
+                    <MenuItem value="NJ">New Jersey - NJ</MenuItem>
+                    <MenuItem value="NM">New Mexico - NM</MenuItem>
+                    <MenuItem value="NY">New York - NY</MenuItem>
+                    <MenuItem value="NC">North Carolina - NC</MenuItem>
+                    <MenuItem value="ND">North Dakota - ND</MenuItem>
+                    <MenuItem value="OH">Ohio - OH</MenuItem>
+                    <MenuItem value="OK">Oklahoma - OK</MenuItem>
+                    <MenuItem value="OR">Oregon - OR</MenuItem>
+                    <MenuItem value="PA">Pennsylvania - PA</MenuItem>
+                    <MenuItem value="RI">Rhode Island - RI</MenuItem>
+                    <MenuItem value="SC">South Carolina - SC</MenuItem>
+                    <MenuItem value="SD">South Dakota - SD</MenuItem>
+                    <MenuItem value="TN">Tennessee - TN</MenuItem>
+                    <MenuItem value="TX">Texas - TX</MenuItem>
+                    <MenuItem value="UT">Utah - UT</MenuItem>
+                    <MenuItem value="VT">Vermont - VT</MenuItem>
+                    <MenuItem value="VA">Virginia - VA</MenuItem>
+                    <MenuItem value="WA">Washington - WA</MenuItem>
+                    <MenuItem value="WV">West Virginia - WV</MenuItem>
+                    <MenuItem value="WI">Wisconsin - WI</MenuItem>
+                    <MenuItem value="WY">Wyoming - WY</MenuItem>
                   </TextField>
                 );
               }}

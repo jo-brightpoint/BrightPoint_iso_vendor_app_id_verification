@@ -1,11 +1,12 @@
-import React from "react";
+import * as React from "react";
 import { Redirect } from "react-router-dom";
 import queryString from "query-string";
 import Layout from "./shared/Layout";
 import Header from "./components/Header";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { Theme } from "@material-ui/core";
 
-import { Formik, FieldArray } from "formik";
+import { Formik, FieldArray, FormikProps } from "formik";
 import FinancingTypeContainer from "./components/FinancingTypeContainer";
 import BusinessInformation from "./components/BusinessInformation";
 import OwnerInformation from "./components/OwnerInformation";
@@ -21,7 +22,7 @@ import SignatureSection from "./components/SignatureSection";
 
 import { data } from "./data";
 
-const theme = createMuiTheme();
+const theme: Theme = createMuiTheme();
 
 theme.overrides = {
   MuiFilledInput: {
@@ -86,7 +87,9 @@ theme.overrides = {
       "&:last-child .MuiTouchRipple-root": {
         borderBottom: 0
       }
-    },
+    }
+  },
+  MuiListItem: {
     button: {
       backgroundColor: "#EBEBEB"
     }
@@ -100,13 +103,113 @@ theme.overrides = {
   }
 };
 
-class App extends React.Component {
-  state = {
+interface Props {}
+
+interface Account {
+  company: string;
+  dba: string;
+  legal_entity_type: string;
+  state_of_org: string;
+  business_category: string;
+  type_of_product_services_sold: string;
+  home_based: string;
+  business_start_date: string;
+  num_of_employees: string;
+  business_website: string;
+  business_location_street: string;
+  business_location_city: string;
+  business_location_state: string;
+  business_location_zipcode: string;
+  rent_or_own: string;
+  monthly_rent_mortgage_payment: string;
+  tax_id: string;
+}
+
+interface Contact {
+  first_name: string;
+  last_name: string;
+  ownership_range: string;
+  title: string;
+  mobilephone: string;
+  email: string;
+  date_of_birth: string;
+  ssn: string;
+  fico_score: string;
+  pref_language: string;
+  mailing_street: string;
+  mailing_city: string;
+  mailing_state: string;
+  mailing_zip: string;
+  has_current_judgment: string;
+  has_previous_judgment: string;
+  residency_type: string;
+  bankruptcy_history: string;
+  driver_license: string;
+}
+
+interface Opp {
+  type: string;
+  amount_requested_exact: string;
+  important_factor: string;
+  how_fast: string;
+  collateral_option: string;
+  avg_monthly_revenue: string;
+  cc_sales_ratio: string;
+  daily_balance_range: string;
+  filed_previous_taxreturn: string;
+  has_online_banking: string;
+  loan_history: string;
+  vendor_name: string;
+  vendor_website: string;
+  vendor_email: string;
+  vendor_phone: string;
+  vendor_street: string;
+  vendor_city: string;
+  vendor_state: string;
+  vendor_zip: string;
+  equipment_condition: string;
+  equipment_cost: string;
+  equipment_description: string;
+  equipment_desired_term: string;
+  equipment_purchase_option: string;
+  have_quote_invoice: string;
+}
+
+interface State {
+  type: string | string[] | null | undefined;
+  external_id: string | string[] | null | undefined;
+  folder_id: string;
+  files: FileObj[];
+  client_ip: string;
+  signature: string[][];
+  account: Account;
+  opp: Opp;
+  contact: Contact[];
+  loading: boolean;
+  application_finished: boolean;
+  showErrorMsg: boolean;
+  errorMessage: string | string[] | null | undefined;
+}
+
+interface FileObj {
+  base64: string | ArrayBuffer | null;
+  filename: string;
+  type: string;
+  size: number;
+}
+
+class App extends React.Component<Props, State> {
+  state: State = {
     type: "",
     external_id: "",
     folder_id: "",
+    client_ip: "",
     files: [],
     signature: [],
+    loading: false,
+    application_finished: false,
+    showErrorMsg: false,
+    errorMessage: "",
     account: {
       company: "",
       dba: "",
@@ -194,46 +297,7 @@ class App extends React.Component {
     }
   }
 
-  addOwner = () => {
-    this.setState({
-      ...this.state,
-      contact: [
-        ...this.state.contact,
-        {
-          first_name: "",
-          last_name: "",
-          ownership_range: "",
-          title: "",
-          mobilephone: "",
-          email: "",
-          date_of_birth: "",
-          ssn: "",
-          fico_score: "",
-          pref_language: "",
-          mailing_street: "",
-          mailing_city: "",
-          mailing_state: "",
-          mailing_zip: "",
-          has_current_judgment: "",
-          has_previous_judgment: "",
-          residency_type: "",
-          bankruptcy_history: ""
-        }
-      ]
-    });
-  };
-
-  removeOwner = () => {
-    this.setState(prevState => {
-      console.log(prevState);
-      return {
-        ...prevState,
-        contact: prevState.contact.splice(0, 1)
-      };
-    });
-  };
-
-  submitHandler = (values, formikBag) => {
+  submitHandler = (values: State) => {
     window.scrollTo(0, 0);
     this.setState(
       {
@@ -263,15 +327,12 @@ class App extends React.Component {
                 if (res.data.statusCode !== 200) {
                   console.log("something went wrong.");
                   if (res.data.statusCode === 400) {
-                    var errorMsg;
-
                     this.setState(
                       {
                         showErrorMsg: true,
                         errorMessage: res.data.errors,
                         loading: false,
                         application_finished: false,
-                        signatureErrMsg: errorMsg,
                         type: "redirect"
                       },
                       () => {
@@ -317,12 +378,12 @@ class App extends React.Component {
     );
   };
 
-  onFileDrop = file => {
+  onFileDrop = (file: any[]) => {
     for (let i = 0; i < file.length; i++) {
       const reader = new FileReader();
       reader.onload = e => {
-        const newFiles = this.state.files && [...this.state.files];
-        let newFileObj = {
+        const newFiles: Array<FileObj> = this.state.files && [...this.state.files];
+        let newFileObj: FileObj = {
           base64: reader.result,
           filename: file[i].name,
           type: file[i].type,
@@ -344,14 +405,14 @@ class App extends React.Component {
     }
   };
 
-  removeFile = name => {
+  removeFile = (name: string) => {
     this.setState({
       files: this.state.files.filter(file => file.filename !== name)
     });
   };
 
-  getSignature = signature => {
-    this.setState(prevState => {
+  getSignature = (signature: string[]) => {
+    this.setState((prevState: State) => {
       const newState = [...prevState.signature, signature];
       return {
         signature: newState
@@ -382,7 +443,7 @@ class App extends React.Component {
               onSubmit={this.submitHandler}
               validationSchema={ApplicationValidation}
             >
-              {({ values, errors, touched, handleChange, handleSubmit, isSubmitting, handleBlur, setFieldValue }) => (
+              {({ values, errors, touched, handleSubmit, handleChange, handleBlur, isSubmitting, setFieldValue }: FormikProps<State>) => (
                 <form
                   onSubmit={handleSubmit}
                   onKeyDown={e => {
@@ -392,21 +453,8 @@ class App extends React.Component {
                   }}
                 >
                   <ThemeProvider theme={theme}>
-                    <FinancingTypeContainer
-                      setFieldValue={setFieldValue}
-                      handleChange={handleChange}
-                      handleBlur={handleBlur}
-                      errors={errors}
-                      values={values}
-                      touched={touched}
-                    />
-                    <BusinessInformation
-                      handleChange={handleChange}
-                      handleBlur={handleBlur}
-                      errors={errors}
-                      values={values}
-                      touched={touched}
-                    />
+                    <FinancingTypeContainer setFieldValue={setFieldValue} errors={errors} values={values} touched={touched} />
+                    <BusinessInformation errors={errors} values={values} touched={touched} />
 
                     <FieldArray
                       name="contact"
@@ -417,11 +465,8 @@ class App extends React.Component {
                               <OwnerInformation
                                 key={index}
                                 index={index}
-                                handleChange={handleChange}
-                                handleBlur={handleBlur}
                                 errors={errors}
                                 values={values}
-                                state={this.state.contact}
                                 touched={touched}
                                 helpers={helpers}
                                 setFieldValue={setFieldValue}
@@ -434,13 +479,7 @@ class App extends React.Component {
                     {values && values.opp.type === "Equipment Financing" ? (
                       <EquipmentInformation errors={errors} values={values} touched={touched} />
                     ) : (
-                      <FinancialInformation
-                        handleChange={handleChange}
-                        handleBlur={handleBlur}
-                        errors={errors}
-                        values={values}
-                        touched={touched}
-                      />
+                      <FinancialInformation errors={errors} values={values} touched={touched} />
                     )}
                   </ThemeProvider>
 
