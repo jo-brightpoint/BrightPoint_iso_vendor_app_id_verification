@@ -3,7 +3,7 @@ import { TextField, MenuItem } from "@material-ui/core";
 //import NumberFormat from "react-number-format";
 import { FastField } from "formik";
 
-export default function FinancialInformation({ errors, values, touched, onChange }) {
+export default function FinancialInformation({ errors, values, touched }) {
   return (
     <div>
       <div>

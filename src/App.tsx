@@ -1,112 +1,39 @@
-import React from "react";
-import { Redirect } from "react-router-dom";
-import queryString from "query-string";
-import Layout from "./shared/Layout";
-import Header from "./components/Header";
-import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
-
-import { Formik, FieldArray } from "formik";
-import FinancingTypeContainer from "./components/FinancingTypeContainer";
-import BusinessInformation from "./components/BusinessInformation";
-import OwnerInformation from "./components/OwnerInformation";
-import FinancialInformation from "./components/FinancialInformation";
-import EquipmentInformation from "./components/EquipmentInformation";
-
-import { schema as ApplicationValidation } from "./validationSchema";
-import UploadDocument from "./components/UploadDocument";
-
+import * as React from "react";
 import axios from "axios";
+import queryString from "query-string";
 import publicIp from "public-ip";
+
+import { ThemeProvider } from "@material-ui/core/styles";
+import { FieldArray, Formik, FormikProps } from "formik";
+import { Redirect } from "react-router-dom";
+
+import Header from "./components/Header";
+import OwnerInformation from "./components/OwnerInformation";
 import SignatureSection from "./components/SignatureSection";
+import UploadDocument from "./components/UploadDocument";
+import BusinessInformation from "./components/BusinessInformation";
+import EquipmentInformation from "./components/EquipmentInformation";
+import FinancialInformation from "./components/FinancialInformation";
+import FinancingTypeContainer from "./components/FinancingTypeContainer";
 
+import Layout from "./shared/Layout";
+import theme from "./theme";
 import { data } from "./data";
+import { IFileObj, IProps, IState } from "./types";
+import { schema as ApplicationValidation } from "./validationSchema";
 
-const theme = createMuiTheme();
-
-theme.overrides = {
-  MuiFilledInput: {
-    root: {
-      "font-family": '"Messina","-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue","Arial", "sans-serif"',
-      border: "1px solid #E5E5E5",
-      overflow: "hidden",
-      borderRadius: 4,
-      backgroundColor: "#fff",
-      "&:hover": {
-        backgroundColor: "#fff"
-      },
-      "&$focused": {
-        backgroundColor: "#fff"
-      },
-      "&.Mui-error": {
-        border: "1px solid #DE071C",
-        backgroundColor: "#FEF0F0"
-      }
-    },
-    underline: {
-      "&:hover:before": {
-        borderBottom: "0"
-      },
-      "&:before": {
-        borderBottom: "0"
-      },
-      "&:after": {
-        borderBottom: "0"
-      },
-      "&.Mui-focused:after": {
-        border: "none"
-      },
-      "&.Mui-error:after": {
-        border: "none"
-      }
-    }
-  },
-  MuiButton: {
-    root: {
-      "margin-left": ".5rem",
-      "margin-top": ".5rem"
-    }
-  },
-  MuiInputLabel: {
-    root: {
-      fontSize: "16px",
-      fontFamily: "Messina"
-    },
-    focused: {
-      color: "#666666 !important"
-    }
-  },
-  MuiFormHelperText: {
-    contained: {
-      marginLeft: "0",
-      fontWeight: "bold"
-    }
-  },
-  MuiMenuItem: {
-    root: {
-      "&:last-child .MuiTouchRipple-root": {
-        borderBottom: 0
-      }
-    },
-    button: {
-      backgroundColor: "#EBEBEB"
-    }
-  },
-  MuiTouchRipple: {
-    root: {
-      borderBottom: "1px solid #eee",
-      width: "90%",
-      margin: "0 auto"
-    }
-  }
-};
-
-class App extends React.Component {
-  state = {
+class App extends React.Component<IProps, IState> {
+  state: IState = {
     type: "",
     external_id: "",
     folder_id: "",
+    client_ip: "",
     files: [],
     signature: [],
+    loading: false,
+    application_finished: false,
+    showErrorMsg: false,
+    errorMessage: "",
     account: {
       company: "",
       dba: "",
@@ -194,46 +121,7 @@ class App extends React.Component {
     }
   }
 
-  addOwner = () => {
-    this.setState({
-      ...this.state,
-      contact: [
-        ...this.state.contact,
-        {
-          first_name: "",
-          last_name: "",
-          ownership_range: "",
-          title: "",
-          mobilephone: "",
-          email: "",
-          date_of_birth: "",
-          ssn: "",
-          fico_score: "",
-          pref_language: "",
-          mailing_street: "",
-          mailing_city: "",
-          mailing_state: "",
-          mailing_zip: "",
-          has_current_judgment: "",
-          has_previous_judgment: "",
-          residency_type: "",
-          bankruptcy_history: ""
-        }
-      ]
-    });
-  };
-
-  removeOwner = () => {
-    this.setState(prevState => {
-      console.log(prevState);
-      return {
-        ...prevState,
-        contact: prevState.contact.splice(0, 1)
-      };
-    });
-  };
-
-  submitHandler = (values, formikBag) => {
+  submitHandler = (values: IState) => {
     window.scrollTo(0, 0);
     this.setState(
       {
@@ -263,15 +151,12 @@ class App extends React.Component {
                 if (res.data.statusCode !== 200) {
                   console.log("something went wrong.");
                   if (res.data.statusCode === 400) {
-                    var errorMsg;
-
                     this.setState(
                       {
                         showErrorMsg: true,
                         errorMessage: res.data.errors,
                         loading: false,
                         application_finished: false,
-                        signatureErrMsg: errorMsg,
                         type: "redirect"
                       },
                       () => {
@@ -317,12 +202,12 @@ class App extends React.Component {
     );
   };
 
-  onFileDrop = file => {
+  onFileDrop = (file: any[]) => {
     for (let i = 0; i < file.length; i++) {
       const reader = new FileReader();
       reader.onload = e => {
-        const newFiles = this.state.files && [...this.state.files];
-        let newFileObj = {
+        const newFiles: Array<IFileObj> = this.state.files && [...this.state.files];
+        let newFileObj: IFileObj = {
           base64: reader.result,
           filename: file[i].name,
           type: file[i].type,
@@ -344,14 +229,14 @@ class App extends React.Component {
     }
   };
 
-  removeFile = name => {
+  removeFile = (name: string) => {
     this.setState({
       files: this.state.files.filter(file => file.filename !== name)
     });
   };
 
-  getSignature = signature => {
-    this.setState(prevState => {
+  getSignature = (signature: string[]) => {
+    this.setState((prevState: IState) => {
       const newState = [...prevState.signature, signature];
       return {
         signature: newState
@@ -382,7 +267,7 @@ class App extends React.Component {
               onSubmit={this.submitHandler}
               validationSchema={ApplicationValidation}
             >
-              {({ values, errors, touched, handleChange, handleSubmit, isSubmitting, handleBlur, setFieldValue }) => (
+              {({ values, errors, touched, handleSubmit, handleChange, handleBlur, isSubmitting, setFieldValue }: FormikProps<IState>) => (
                 <form
                   onSubmit={handleSubmit}
                   onKeyDown={e => {
@@ -392,21 +277,8 @@ class App extends React.Component {
                   }}
                 >
                   <ThemeProvider theme={theme}>
-                    <FinancingTypeContainer
-                      setFieldValue={setFieldValue}
-                      handleChange={handleChange}
-                      handleBlur={handleBlur}
-                      errors={errors}
-                      values={values}
-                      touched={touched}
-                    />
-                    <BusinessInformation
-                      handleChange={handleChange}
-                      handleBlur={handleBlur}
-                      errors={errors}
-                      values={values}
-                      touched={touched}
-                    />
+                    <FinancingTypeContainer setFieldValue={setFieldValue} errors={errors} values={values} touched={touched} />
+                    <BusinessInformation errors={errors} values={values} touched={touched} />
 
                     <FieldArray
                       name="contact"
@@ -417,11 +289,8 @@ class App extends React.Component {
                               <OwnerInformation
                                 key={index}
                                 index={index}
-                                handleChange={handleChange}
-                                handleBlur={handleBlur}
                                 errors={errors}
                                 values={values}
-                                state={this.state.contact}
                                 touched={touched}
                                 helpers={helpers}
                                 setFieldValue={setFieldValue}
@@ -434,13 +303,7 @@ class App extends React.Component {
                     {values && values.opp.type === "Equipment Financing" ? (
                       <EquipmentInformation errors={errors} values={values} touched={touched} />
                     ) : (
-                      <FinancialInformation
-                        handleChange={handleChange}
-                        handleBlur={handleBlur}
-                        errors={errors}
-                        values={values}
-                        touched={touched}
-                      />
+                      <FinancialInformation errors={errors} values={values} touched={touched} />
                     )}
                   </ThemeProvider>
 
