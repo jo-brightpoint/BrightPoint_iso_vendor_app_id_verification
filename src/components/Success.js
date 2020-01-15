@@ -1,4 +1,6 @@
 import React from "react";
+import Header from './Header';
+import Layout from "../shared/Layout";
 
 class Success extends React.Component {
   state = {
@@ -8,29 +10,22 @@ class Success extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <div className="success-page h-100vh text-white" style={{ backgroundColor: "#2a3f54" }}>
-          <div className="container">
-            <div className="row">
-              <div className="col-md-12 mx-auto d-flex justify-content-center align-items-center flex-column h-100vh">
-                <div className="content-area text-center">
-                  <img
-                    className="py-lg-md"
-                    width="320"
-                    src="https://image.brightpoint.net/bp-white-logo.png"
-                    alt="BrightPoint Capital Inc."
-                  />
-                  <div className="text-container pb-lg-lg">
-                    <h3 className="py-sm text-white arial-nova m-0">Your application is successfully submitted.</h3>
-                    <i className="fal fa-check-circle fa-7x checkmark" style={{ color: "#fff" }} />
-                    {this.state.from && this.state.from === "application" && (
-                      <p className="py-sm display-4 arial-nova m-0">Now check your email</p>
-                    )}
-                  </div>
+          <Header />
+        <Layout>
+          <div className="success-page h-100vh text-white">
+            <div className="container mx-auto m-24 h-100vh flex justify-center">
+              <div className="flex flex-col justify-center items-center">
+                <div className="my-8">
+                  <img src={require('../images/green-check.svg')} height="61.1px" width="61.1px" />
+                </div>
+                <div className="text-center" style={{color: "#000000"}}>
+                  <p className="font-sansBold">Thank you!</p>
+                  <p className="font-sansBold">Your application is successfully submitted. We will contact you very soon!</p>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </Layout>
       </React.Fragment>
     );
   }
