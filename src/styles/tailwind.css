@@ -8691,6 +8691,10 @@ video {
   transform: rotate(120deg) translateY(0);
 }
 
+.container-c {
+  max-width: 1000px;
+}
+
 @keyframes orbBounceBefore {
   60% {
     transform: translateX(0);

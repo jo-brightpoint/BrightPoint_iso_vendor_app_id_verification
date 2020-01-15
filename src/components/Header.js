@@ -3,7 +3,7 @@ import React from "react";
 const Header = () => {
   return (
     <div className="w-full bg-bpc-navy">
-      <div className="container mx-auto">
+      <div className="container-c mx-auto">
         <div className="w-full flex justify-around items-center">
           <div className="w-full">
             <img className="py-5" src={require("../images/BrightPoint-logo.svg")} alt="BrightPoint Capital Logo" />

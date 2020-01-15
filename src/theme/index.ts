@@ -20,7 +20,9 @@ theme.overrides = {
       "&.Mui-error": {
         border: "1px solid #DE071C",
         backgroundColor: "#FEF0F0"
-      }
+      },
+      height: 46,
+      padding: "10px 0"
     },
     underline: {
       "&:hover:before": {
@@ -51,6 +53,9 @@ theme.overrides = {
       fontSize: "16px",
       fontFamily: "Messina"
     },
+    filled: {
+      transform: "translate(12px, 15px) scale(1)"
+    },
     focused: {
       color: "#666666 !important"
     }
@@ -65,12 +70,23 @@ theme.overrides = {
     root: {
       "&:last-child .MuiTouchRipple-root": {
         borderBottom: 0
+      },
+      "&.Mui-selected": {
+        borderBottom: 0
       }
     }
   },
   MuiListItem: {
+    root: {
+      "&.Mui-selected": {
+        backgroundColor: "#ebebeb"
+      }
+    },
     button: {
-      backgroundColor: "#EBEBEB"
+      backgroundColor: "#FFFFFF",
+      "&:hover": {
+        backgroundColor: "#ebebeb"
+      }
     }
   },
   MuiTouchRipple: {

@@ -260,7 +260,7 @@ class App extends React.Component<IProps, IState> {
         <Layout>
           <Header />
           <h1 className="text-2xl text-center py-4 capitalize text-bpc-navy mt-10">Complete Your Application</h1>
-          <div className="container mx-auto bg-bpc-light-gray rounded-bpc shadow-bpc p-8 mt-10">
+          <div className="container-c mx-auto bg-bpc-light-gray rounded-bpc shadow-bpc p-8 mt-10">
             <Formik
               enableReinitialize={false}
               initialValues={this.state}
