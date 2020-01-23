@@ -4,8 +4,8 @@ import Layout from "../shared/Layout";
 
 const Success: React.FC<{}> = () => (
   <React.Fragment>
-    <Header />
     <Layout>
+      <Header />
       <div className="success-page text-white">
         <div className="container-c mx-auto m-24 flex justify-center">
           <div className="flex flex-col justify-center items-center">
