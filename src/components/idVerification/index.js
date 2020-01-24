@@ -1,19 +1,28 @@
 import React from "react";
 import { ThemeProvider } from '@material-ui/core/styles';
 import Header from "../Header";
+import Footer from "../Footer";
 import Layout from "../../shared/Layout";
 import theme from '../../theme';
 import axios from "axios";
 
-class IdVerification extends React.Component {
-
-    state = {
+const initialState = {
         verificationCode: [],
         input1: undefined,
         input2: undefined,
         input3: undefined,
         input4: undefined,
-        flag: true
+        flag: true    
+}
+
+class IdVerification extends React.Component {
+
+    constructor(props){
+        super(props);
+        this.state = initialState;
+    }
+    reset(){
+        this.setState(initialState)
     }
     
     input1 = React.createRef();
@@ -25,20 +34,12 @@ class IdVerification extends React.Component {
         let name = e.target.name;
         let val = e.target.value;
 
-        this.setState(prevState => {
-            const newState = [...prevState.verificationCode, val];
-            return {
-                verificationCode: newState
-            }
-        }, () => {
-            if(name!='input4'){
+        this.setState({[name]:val}, () => {
+            if(name!='input4' && val){
                 this[name].current.nextSibling.focus()
             }
 
             if(this.state.verificationCode.length === 4){
-                // call API
-                // setFlag (response 200)
-                // error if response !== 200
                 let axiosConfig = {
                     headers: {
                       "Content-Type": "application/json"
@@ -64,14 +65,35 @@ class IdVerification extends React.Component {
     handleClick = () => {
         this.input1.current.focus();
         this.setState({flag:true})
-        this.input1.current.value = '';
-        this.input2.current.value = '';
-        this.input3.current.value = '';
-        this.input4.current.value = '';
+        this.reset();
     }
+
+    temp =(e) =>{
+        var x = e.keyCode;
+        if(x !== 8){
+            this.check();
+        }
         
+        if(x === 8){    
+            let name = e.target.name;
 
-
+            if(this[name].current.previousSibling != null){
+                this[name].current.previousSibling.focus();                
+                
+                // this.setState({[name]: undefined}, ()=>{this.check()}); // problem here
+                // set previous state to undefined
+            }
+            this.check();
+        }    
+    }
+    
+    check =() =>{
+        console.log('----------------------------')
+        console.log('input1: ', this.state.input1);
+        console.log('input2: ', this.state.input2);
+        console.log('input3: ', this.state.input3);
+        console.log('input4: ', this.state.input4);
+    }
     render() {
         return(
         <ThemeProvider theme={theme}>
@@ -90,10 +112,10 @@ class IdVerification extends React.Component {
                             </button>
                             <p className="text-sm text-center mt-6">Enter the 4-digit verification code</p>
                             <div className="h-12 flex justify-center mt-2" ref={this.inputContainer}>
-                                <input className="w-12 h-14 mx-1 bg-white text-3xl flex justify-around items-between text-center border border-gray-400" ref={this.input1} name="input1" id="input1" type="text" maxLength={1} onChange={this.handleCodeInput} />
-                                <input className="w-12 h-14 mx-1 bg-white text-3xl flex justify-around items-between text-center border border-gray-400" ref={this.input2} name="input2" id="input2" type="text" maxLength={1} onChange={this.handleCodeInput} />
-                                <input className="w-12 h-14 mx-1 bg-white text-3xl flex justify-around items-between text-center border border-gray-400" ref={this.input3} name="input3" id="input3" type="text" maxLength={1} onChange={this.handleCodeInput} />
-                                <input className="w-12 h-14 mx-1 bg-white text-3xl flex justify-around items-between text-center border border-gray-400" ref={this.input4} name="input4" id="input4" type="text" maxLength={1} onChange={this.handleCodeInput} />
+                                <input className="w-12 h-14 mx-1 bg-white text-3xl flex justify-around items-between text-center border border-gray-400" ref={this.input1} name="input1" id="input1" type="text" maxLength={1} onChange={this.handleCodeInput} onKeyUp={this.temp} value={this.state.input1 || ''}/>
+                                <input className="w-12 h-14 mx-1 bg-white text-3xl flex justify-around items-between text-center border border-gray-400" ref={this.input2} name="input2" id="input2" type="text" maxLength={1} onChange={this.handleCodeInput} onKeyUp={this.temp} value={this.state.input2 || ''}/>
+                                <input className="w-12 h-14 mx-1 bg-white text-3xl flex justify-around items-between text-center border border-gray-400" ref={this.input3} name="input3" id="input3" type="text" maxLength={1} onChange={this.handleCodeInput} onKeyUp={this.temp} value={this.state.input3 || ''}/>
+                                <input className="w-12 h-14 mx-1 bg-white text-3xl flex justify-around items-between text-center border border-gray-400" ref={this.input4} name="input4" id="input4" type="text" maxLength={1} onChange={this.handleCodeInput} onKeyUp={this.temp} value={this.state.input4 || ''}/>
                             </div>
                             {
                                 this.state.flag ? (<div className="mt-4 h-8 w-40 mb-6">
